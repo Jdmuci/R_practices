@@ -1,0 +1,89 @@
+---
+title: "Stock Prices with Tidyquant"
+author: "JD"
+date: "1/18/2024"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## How to get stock prices from YahooFinance with Tidyquant
+
+Libraries:
+
+- tidyquant
+- purrr
+- dplyr
+
+Plots:
+
+- ggplot
+
+
+Companies:
+
+1. Nvidia Corporation: $NVIDIA 
+2. Visa: $V
+
+
+
+Examples:
+
+```{r pressure, echo=FALSE, warning=FALSE, message=FALSE}
+#Cargemos librerias:
+
+library(tidyquant)
+library(purrr)
+library(ggplot2)
+library(dplyr)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+### Visa 
+From 01-01-2023 to 12-31-2023
+
+```{r, echo=FALSE, message=FALSE}
+V_price <- tq_get('V',
+                     from = "2023-01-01",
+                     to = "2023-12-31",
+                     get = "stock.prices",
+                     collapse = "weekly") #Forma alternativa 
+V_price
+
+V_price %>%
+  ggplot(aes(x = date, y = close)) +
+  geom_line(color = "#5796e7") +
+  theme_classic() +
+  labs(x = 'Date',
+       y = "Close Price (USD)",
+       title = "Visa",
+       subtitle = "2023, stock performance",
+       caption = "From Yahoo Finance") +
+  scale_y_continuous(breaks = seq(0,300,10))
+```
+
+### Nvidia Corp
+From 01-01-2023 to 12-31-2023
+
+```{r, echo=FALSE, message=FALSE}
+
+NVDA_price <- tq_get('NVDA',
+                    from = "2023-01-01",
+                    to = "2023-12-31",
+                    get = "stock.prices",
+                    collapse = "weekly") #Forma alternativa 
+NVDA_price
+
+NVDA_price %>%
+  ggplot(aes(x = date, y = close)) +
+  geom_line(color = "#78a739") +
+  theme_classic() +
+  labs(x = 'Date',
+       y = "Close price (USD)",
+       title = "Nvidia") +
+  scale_y_continuous(breaks = seq(0,600,25))
+```
+
